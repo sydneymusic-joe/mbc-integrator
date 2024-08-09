@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="temp-format.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+	</head>
+	<body>
+		<div id="viewToggle">
+			<button id="images">Images View</button>
+			<button id="list">List View</button>
+		</div>
+
+
+		<div class="host" id="host">
+		{% for gig in gigs %}
+			<div>
+				<a href="{{gig.URL|safe}}"><img src="{{gig.Image}}" /></a>
+				<div class="date">{{gig.Date.getDate()}} {{gig.Date.toLocaleString('default', { month: 'long' })}} @ {{gig.Date.toLocaleString("en-AU", {timeStyle : 'short', hour12:true})}}</div>
+				<div class="headline"><a href="{{gig.URL|safe}}">{{gig.EventName|safe}}</a></div>
+				<div class="tagline">{{gig.Tagline}}</div>
+				<div class="venue">{{gig.Venue}}</div>
+			</div>
+		{% endfor %}
+		</div>
+
+
+		<script>
+			function viewToggleClick(evt) {
+				const host = document.getElementById('host');
+				if (evt.target.id == "list") {
+					host.classList.add('list');
+				}
+				else {
+					host.classList.remove('list');
+				}
+				evt.preventDefault();
+			}
+
+			(function() {
+				document.getElementById('viewToggle').children[0].addEventListener('click', viewToggleClick);
+				document.getElementById('viewToggle').children[1].addEventListener('click', viewToggleClick);
+			})();
+		</script>
+	</body>
+</html>

@@ -1,18 +1,20 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const urlencode = require('urlencode');
-const moment = require('moment');
+const nj = require('nunjucks');
 
 const searchUrls = 
 [
-  '4775'
+  '9716'
 ];
 
 const venues = 
 [
-	"The Chippo Hotel"
+	"The Chippo Hotel",
+	"Vic on The Park Hotel",
+	"Waywards (The Bank Hotel)",
+	"The Royal Bondi"
 ];
-
 const sortByDate = (a, b) => {
     return a.Date - b.Date;
 };
@@ -20,21 +22,65 @@ const sortByDate = (a, b) => {
 async function searchAndExport() {
   let results = [];
 
-  for (var idx in searchUrls) {
-    // Perform the initial search and retrieve the total number of pages
-    let response = await axios.get('https://www.moshtix.com.au/v2/venues/venue/' + searchUrls[idx]);
-    let $ = cheerio.load(response.data);
+  const endpoint = "https://api.moshtix.com/v1/graphql";
 
-    $ = cheerio.load(response.data);
-    $("script[type='application/ld+json']").each((i, element) => {
-      let src = JSON.parse(element.children[0].data)[0];
-      let result = {};
-      result['Date'] = new Date(src.startDate);
-      result['Venue'] = src.location.name;
-      result['EventName'] = src.name;
-      result['URL'] = src.url;
-      results.push(result);
-    });
+  const fromNow = new Date();
+
+  for (var idx in searchUrls) {
+	const headers = {
+		"content-type": "application/json"
+	};
+	const graphqlQuery = {
+		"operationName": "events",
+		"query": `query {
+      viewer {
+    getEvents(venueIds: [${searchUrls.join(", ")}], eventStartDateFrom : "${fromNow.toISOString()}") {
+      items {
+        id
+        name
+        startDate
+		eventUrl
+		venue {
+			name
+		}
+		artists {
+			items {
+				name
+			}
+		}
+		images {
+			items {
+				url
+			}
+		}
+      }
+    }
+  }
+}
+`,
+		"variables": {}
+	};
+	
+	const response = await axios({
+	  url: endpoint,
+	  method: 'post',
+	  headers: headers,
+	  data: graphqlQuery
+	});
+	
+	// Perform the initial search and retrieve the total number of pages
+	const items = response.data.data.viewer.getEvents.items;
+	items.forEach((element, i) => {
+		let src = element;
+		let result = {};
+		result['Date'] = new Date(src.startDate);
+		result['Venue'] = src.venue.name;
+		result['Image'] = src.images.items[0].url.replace('140x140','600x600');
+		result['Tagline'] = src.artists.items.map((val, idx, arr) => { return val.name; }).join(" + ");
+		result['EventName'] = src.name;
+		result['URL'] = src.eventUrl;
+		results.push(result);
+	  });
   }
 
 	for (const venue in venues) {
@@ -42,7 +88,6 @@ async function searchAndExport() {
 		let resultCount = 20;
 
 		while (resultCount > 0) {
-			console.log (venues[venue] + ' page ' + page);
 			let response = await axios.post(
 				"https://icgfyqwgtd-dsn.algolia.net/1/indexes/*/queries?x-algolia-agent=Algolia%20for%20JavaScript%20(4.11.0)%3B%20Browser%20(lite)%3B%20instantsearch.js%20(4.33.2)%3B%20Vue%20(3.2.22)%3B%20Vue%20InstantSearch%20(4.1.1)%3B%20JS%20Helper%20(3.6.2)&x-algolia-api-key=bc11adffff267d354ad0a04aedebb5b5&x-algolia-application-id=ICGFYQWGTD",
 				`{
@@ -73,16 +118,20 @@ async function searchAndExport() {
 			);
 
 			let data = response.data.results[0];
+
 			resultCount = data.hits.length;
-			console.log(resultCount);
 
 			data.hits.forEach((element, i) => {
 				let src = element;
+				if (src['IsPostponed']) {
+					return;
+				}
 				let result = {};
 				result['Date'] = new Date(src['DateStart'] + "+00:00");
 				result['Venue'] = venues[venue];
 				result['EventName'] = src['EventName'];
 				result['Tagline'] = src['SpecialGuests'];
+				result['Image'] = src['HomepageImage'];
 				result['URL'] = src['EventUrl'].replace('utm_medium=Website', 'utm_medium=EventFeed').replace('utm_source=Oztix', 'utm_source=MBC');
 				results.push(result);
 			});
@@ -93,7 +142,8 @@ async function searchAndExport() {
 
 	results.sort(sortByDate);
 
-	console.log(JSON.stringify(results));
+	nj.configure('views', {autoescape:true});
+	console.log(nj.render('gigs.html', {gigs : results}));
 }
 
 searchAndExport();
