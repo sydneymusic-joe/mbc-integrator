@@ -143,7 +143,7 @@ async function searchAndExport() {
 	results.sort(sortByDate);
 
 	nj.configure('views', {autoescape:true});
-	fs.writeFile("build/gig-guide.html", nj.render('gigs.html', {gigs : results}));
+	fs.writeFile("src/gig-guide.html", nj.render('gigs.html', {gigs : results}));
 }
 
 searchAndExport();
