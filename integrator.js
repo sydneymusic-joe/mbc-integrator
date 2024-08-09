@@ -10,6 +10,7 @@ const searchUrls =
 
 const venues = 
 [
+	"Bootleggers",
 	"The Chippo Hotel",
 	"Vic on The Park Hotel",
 	"Waywards (The Bank Hotel)",
