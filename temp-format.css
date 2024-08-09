@@ -1,0 +1,142 @@
+body {
+	font-family : Arial, Helvetica, sans-serif
+}
+
+#viewToggle {
+	margin-bottom : 10px;
+}
+
+#viewToggle button {
+	padding : 10px;
+	font-family : Arial, Helvetica, sans-serif;
+	font-size : 20px;
+	background : #eee;
+	border : 0;
+	cursor: pointer;
+	transition: all ease-in .3s;
+}
+
+#viewToggle button:before {
+	content:"";
+	background-repeat : no-repeat;
+	width : 16px;
+	height : 16px;
+	margin-right : 10px;
+	display : inline-block;
+	background-size : contain;
+}
+
+#viewToggle button:first-child:before {
+	background-image : url(view-images.png);
+}
+
+#viewToggle button:last-child:before {
+	background-image : url(view-list.png);
+}
+
+#viewToggle button:hover {
+	background : #c00;
+	color : white;
+}
+
+.host {
+	display : grid;
+	grid-template-columns: auto auto auto;
+	align-items: baseline;
+	row-gap: 30px;
+	width : 100vw;
+}
+
+.host:not(.list) > div:hover img {
+	opacity : 0.8;
+	border-radius : 0 40px 0 40px;
+}
+
+.host:not(.list) > div:hover div a {
+	color : white;
+	background : black;
+}
+
+.host:not(.list) > div img {
+	transition : all .2s ease-in;
+}
+
+.host.list {
+	display : block;
+}
+
+.host.list div div {
+	font-size : 14px
+}
+
+.host.list > div {
+	display : grid;
+	grid-template-columns: 120px auto;
+	grid-template-rows: min-content min-content min-content min-content auto;
+  }
+
+.host.list a {
+	font-weight : bold;
+}
+
+.host.list img {
+	grid-column-start: 1;
+	grid-row-start: 1;
+	grid-row-end: 4;
+}
+
+.host.list div div.date {
+	grid-column-start: 2;
+	grid-column-end: 2;
+}
+
+.host.list div div.headline {
+	grid-column-start: 2;
+}
+
+.host.list div div.venue, .host.list div div.tagline {
+	grid-column-start: 2;
+}
+
+.host.list div div.venue {
+	margin-bottom : 20px;
+}
+
+.host.list > div {
+	padding : 0px;
+}
+
+.host > div {
+	padding : 10px
+}
+
+.host img {
+	max-width : 80%;
+	border-radius : 40px 0 40px 0;
+}
+
+.host.list img {
+	max-width: 90%;
+	border-radius : 20px 0px 20px 0px;
+}
+
+.host .date {
+	font-size : 30px;
+	color : #ccc;
+}
+
+.host .headline {
+	font-size : 25px;
+}
+
+.host .headline a {
+	color : black;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	.host {
+		display : block;
+		grid-template-columns: auto;
+	}
+}
