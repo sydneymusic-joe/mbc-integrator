@@ -1,7 +1,7 @@
 const axios = require('axios');
-const cheerio = require('cheerio');
 const urlencode = require('urlencode');
 const nj = require('nunjucks');
+const fs = require('fs/promises');
 
 const searchUrls = 
 [
@@ -143,7 +143,7 @@ async function searchAndExport() {
 	results.sort(sortByDate);
 
 	nj.configure('views', {autoescape:true});
-	console.log(nj.render('gigs.html', {gigs : results}));
+	fs.writeFile("build/gig-guide.html", nj.render('gigs.html', {gigs : results}));
 }
 
 searchAndExport();
