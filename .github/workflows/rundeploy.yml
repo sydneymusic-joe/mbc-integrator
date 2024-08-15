@@ -44,7 +44,7 @@ jobs:
         with:
           path: "./src"
   deploy:
-    runs-on: ubuntu-latest
+    needs: build
     permissions:
       pages: write
       id-token: write
@@ -52,8 +52,10 @@ jobs:
       # environment created automatically by GitHub
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
+    runs-on: ubuntu-latest
     steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v4
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
