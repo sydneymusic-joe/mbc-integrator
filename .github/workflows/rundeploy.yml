@@ -47,6 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pages: write
+      id-token: write
     environment:
       # environment created automatically by GitHub
       name: github-pages
