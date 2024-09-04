@@ -128,7 +128,7 @@ async function searchAndExport() {
 					return;
 				}
 				let result = {};
-				result['Date'] = new Date(src['DateStart'] + "+00:00");
+				result['Date'] = new Date(src['DateStart']);
 				result['Venue'] = venues[venue];
 				result['EventName'] = src['EventName'];
 				result['Tagline'] = src['SpecialGuests'];
