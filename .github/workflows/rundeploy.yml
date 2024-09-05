@@ -31,6 +31,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
+      - name: set timezone to east coast
+        uses: szenius/set-timezone@v2.0
+        with:
+          timezoneLinux: "Australia/Sydney"
+
       # Runs a single command using the runners shell
       - name: Install packages
         run: npm install
