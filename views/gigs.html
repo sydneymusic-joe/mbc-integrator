@@ -14,9 +14,9 @@
 		<div class="host" id="host">
 		{% for gig in gigs %}
 			<div>
-				<a href="{{gig.URL|safe}}"><img src="{{gig.Image}}" /></a>
+				<a href="{{gig.URL|safe}}" target="_blank"><img src="{{gig.Image}}" /></a>
 				<div class="date">{{gig.Date.getDate()}} {{gig.Date.toLocaleString('default', { month: 'long' })}} @ {{gig.Date.toLocaleString("en-AU", {timeStyle : 'short', hour12:true})}}</div>
-				<div class="headline"><a href="{{gig.URL|safe}}">{{gig.EventName|safe}}</a></div>
+				<div class="headline"><a href="{{gig.URL|safe}}" target="_blank">{{gig.EventName|safe}}</a></div>
 				<div class="tagline">{{gig.Tagline}}</div>
 				<div class="venue">{{gig.Venue}}</div>
 			</div>

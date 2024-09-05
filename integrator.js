@@ -14,7 +14,8 @@ const venues =
 	"The Chippo Hotel",
 	"Vic on The Park Hotel",
 	"Waywards (The Bank Hotel)",
-	"The Royal Bondi"
+	"The Royal Bondi",
+	"Hollywood Hotel"
 ];
 const sortByDate = (a, b) => {
     return a.Date - b.Date;
