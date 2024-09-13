@@ -29,19 +29,18 @@ async function searchAndExport() {
 
   const fromNow = new Date();
 
-  for (var idx in searchUrls) {
 	const headers = {
 		"content-type": "application/json"
 	};
 	const graphqlQuery = {
 		"operationName": "events",
 		"query": `query {
-      viewer {
-    getEvents(venueIds: [${searchUrls.join(", ")}], eventStartDateFrom : "${fromNow.toISOString()}") {
-      items {
-        id
-        name
-        startDate
+		viewer {
+	getEvents(venueIds: [${searchUrls.join(", ")}], eventStartDateFrom : "${fromNow.toISOString()}") {
+		items {
+		id
+		name
+		startDate
 		eventUrl
 		venue {
 			name
@@ -56,21 +55,21 @@ async function searchAndExport() {
 				url
 			}
 		}
-      }
-    }
-  }
-}
-`,
+		}
+	}
+	}
+	}
+	`,
 		"variables": {}
 	};
-	
+
 	const response = await axios({
-	  url: endpoint,
-	  method: 'post',
-	  headers: headers,
-	  data: graphqlQuery
+		url: endpoint,
+		method: 'post',
+		headers: headers,
+		data: graphqlQuery
 	});
-	
+
 	// Perform the initial search and retrieve the total number of pages
 	const items = response.data.data.viewer.getEvents.items;
 	items.forEach((element, i) => {
@@ -81,10 +80,10 @@ async function searchAndExport() {
 		result['Image'] = src.images.items[0].url.replace('140x140','600x600');
 		result['Tagline'] = src.artists.items.map((val, idx, arr) => { return val.name; }).join(" + ");
 		result['EventName'] = src.name;
+		console.log(src.name);
 		result['URL'] = src.eventUrl;
 		results.push(result);
-	  });
-  }
+		});
 
 	for (const venue in venues) {
 		let page = 0;
