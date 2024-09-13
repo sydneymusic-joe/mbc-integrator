@@ -36,7 +36,7 @@ async function searchAndExport() {
 		"operationName": "events",
 		"query": `query {
 		viewer {
-	getEvents(venueIds: [${searchUrls.join(", ")}], eventStartDateFrom : "${fromNow.toISOString()}") {
+	getEvents(venueIds: [${searchUrls.join(", ")}], pageSize : 100, eventStartDateFrom : "${fromNow.toISOString()}") {
 		items {
 		id
 		name
