@@ -5,7 +5,8 @@ const fs = require('fs/promises');
 
 const searchUrls = 
 [
-  '9716'
+  '9716',
+  '6422'
 ];
 
 const venues = 
@@ -13,9 +14,9 @@ const venues =
 	"Bootleggers",
 	"The Chippo Hotel",
 	"Vic on The Park Hotel",
-	"Waywards (The Bank Hotel)",
 	"The Royal Bondi",
-	"Hollywood Hotel"
+	"Hollywood Hotel",
+	"The Robin Hood Hotel"
 ];
 const sortByDate = (a, b) => {
     return a.Date - b.Date;
