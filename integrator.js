@@ -15,7 +15,7 @@ const venues =
 	"The Chippo Hotel",
 	"Vic on The Park Hotel",
 	"The Royal Bondi",
-	"Hollywood Hotel",
+	"The Hollywood Hotel",
 	"The Robin Hood Hotel"
 ];
 const sortByDate = (a, b) => {
@@ -80,7 +80,6 @@ async function searchAndExport() {
 		result['Image'] = src.images.items[0].url.replace('140x140','600x600');
 		result['Tagline'] = src.artists.items.map((val, idx, arr) => { return val.name; }).join(" + ");
 		result['EventName'] = src.name;
-		console.log(src.name);
 		result['URL'] = src.eventUrl;
 		results.push(result);
 		});
@@ -129,7 +128,7 @@ async function searchAndExport() {
 					return;
 				}
 				let result = {};
-				result['Date'] = new Date(src['DateStart']);
+				result['Date'] = new Date(src['DateStart'] + ".000Z");
 				result['Venue'] = venues[venue];
 				result['EventName'] = src['EventName'];
 				result['Tagline'] = src['SpecialGuests'];
