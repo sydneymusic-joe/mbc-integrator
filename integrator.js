@@ -69,7 +69,7 @@ async function searchAndExport() {
 		headers: headers,
 		data: graphqlQuery
 	});
-
+ 
 	// Perform the initial search and retrieve the total number of pages
 	const items = response.data.data.viewer.getEvents.items;
 	items.forEach((element, i) => {
