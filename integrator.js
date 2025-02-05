@@ -3,14 +3,14 @@ const urlencode = require('urlencode');
 const nj = require('nunjucks');
 const fs = require('fs/promises');
 
-const searchUrls = 
+const moshtix = 
 [
   '9716',
   '6422',
   '10076'
 ];
 
-const venues = 
+const oztix = 
 [
 	"The Chippo Hotel",
 	"Vic on The Park Hotel",
@@ -37,7 +37,7 @@ async function searchAndExport() {
 		"operationName": "events",
 		"query": `query {
 		viewer {
-	getEvents(venueIds: [${searchUrls.join(", ")}], pageSize : 100, eventStartDateFrom : "${fromNow.toISOString()}") {
+	getEvents(venueIds: [${moshtix.join(", ")}], pageSize : 100, eventStartDateFrom : "${fromNow.toISOString()}") {
 		items {
 		id
 		name
@@ -85,7 +85,7 @@ async function searchAndExport() {
 		results.push(result);
 		});
 
-	for (const venue in venues) {
+	for (const venue in oztix) {
 		let page = 0;
 		let resultCount = 20;
 
@@ -97,7 +97,7 @@ async function searchAndExport() {
 					[
 						{
 							"indexName":"prod_oztix_eventguide",
-							"params":"maxValuesPerFacet=20&highlightPreTag=__ais-highlight__&highlightPostTag=__%2Fais-highlight__&page=${page}&query=&facets=%5B%22Venue.State%22%2C%22Categories%22%2C%22Bands%22%2C%22Venue.Name%22%5D&tagFilters=&facetFilters=%5B%5B%22Venue.Name%3A${urlencode.encode(venues[venue])}%22%5D%5D"
+							"params":"maxValuesPerFacet=20&highlightPreTag=__ais-highlight__&highlightPostTag=__%2Fais-highlight__&page=${page}&query=&facets=%5B%22Venue.State%22%2C%22Categories%22%2C%22Bands%22%2C%22Venue.Name%22%5D&tagFilters=&facetFilters=%5B%5B%22Venue.Name%3A${urlencode.encode(oztix[venue])}%22%5D%5D"
 						}
 					]
 				}`,
@@ -130,7 +130,7 @@ async function searchAndExport() {
 				}
 				let result = {};
 				result['Date'] = new Date(src['DateStart'] + ".000Z");
-				result['Venue'] = venues[venue];
+				result['Venue'] = oztix[venue];
 				result['EventName'] = src['EventName'];
 				result['Tagline'] = src['SpecialGuests'];
 				result['Image'] = src['HomepageImage'];
