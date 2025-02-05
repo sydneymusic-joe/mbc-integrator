@@ -6,15 +6,16 @@ const fs = require('fs/promises');
 const searchUrls = 
 [
   '9716',
-  '6422'
+  '6422',
+  '10076'
 ];
 
 const venues = 
 [
-	"Bootleggers",
 	"The Chippo Hotel",
 	"Vic on The Park Hotel",
 	"The Royal Bondi",
+	"The Warren View Hotel",
 	"The Hollywood Hotel",
 	"The Robin Hood Hotel"
 ];
