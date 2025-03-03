@@ -5,7 +5,6 @@ const fs = require('fs/promises');
 
 const moshtix = 
 [
-  '9716',
   '6422',
   '10076'
 ];
