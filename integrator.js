@@ -18,6 +18,7 @@ const oztix =
 	"The Hollywood Hotel",
 	"The Robin Hood Hotel"
 ];
+
 const sortByDate = (a, b) => {
     return a.Date - b.Date;
 };
@@ -33,7 +34,6 @@ async function searchAndExport() {
 		"content-type": "application/json"
 	};
 	const graphqlQuery = {
-		"operationName": "events",
 		"query": `query {
 		viewer {
 	getEvents(venueIds: [${moshtix.join(", ")}], pageSize : 100, eventStartDateFrom : "${fromNow.toISOString()}") {
