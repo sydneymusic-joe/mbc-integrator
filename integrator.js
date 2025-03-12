@@ -6,7 +6,8 @@ const fs = require('fs/promises');
 const moshtix = 
 [
   '6422',
-  '10076'
+  '10076',
+  '51839'
 ];
 
 const oztix = 
