@@ -15,7 +15,8 @@ const oztix =
 	"Vic on The Park Hotel",
 	"The Royal Bondi",
 	"The Warren View Hotel",
-	"The Hollywood Hotel",
+	"Low 302",
+	"Botany View Hotel",
 	"The Robin Hood Hotel"
 ];
 
